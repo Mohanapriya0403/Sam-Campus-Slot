@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sam Campus Slot — Smart Classroom Allocation</title>
+    <meta name="description" content="Sam Campus Slot intelligently finds and allocates the best classroom while preventing scheduling conflicts." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script>
+      // Applied before React mounts so the correct theme (and font) is present on
+      // first paint — prevents a light->dark (or dark->light) flash on load/refresh.
+      (function () {
+        try {
+          var stored = localStorage.getItem('sam-campus-slot-theme') || 'system';
+          var mode = JSON.parse(stored);
+          var isDark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', isDark);
+          var font = JSON.parse(localStorage.getItem('scs-font') || '"inter"');
+          document.documentElement.classList.add('font-' + font);
+        } catch (e) {
+          /* fall back to system default rendering */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

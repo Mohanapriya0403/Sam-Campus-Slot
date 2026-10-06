@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-body: 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  @apply bg-ink-50 text-ink-900 antialiased transition-colors duration-300;
+}
+
+.dark body {
+  @apply bg-ink-900 text-ink-50;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.ink.300') transparent;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: theme('colors.ink.300'); border-radius: 8px; }
+.dark ::-webkit-scrollbar-thumb { background: theme('colors.ink.600'); }
+
+:focus-visible {
+  outline: 2px solid theme('colors.brand.500');
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.font-inter { --font-body: 'Inter', sans-serif; }
+.font-poppins { --font-body: 'Poppins', sans-serif; }
+.font-roboto { --font-body: 'Roboto', sans-serif; }
+.font-manrope { --font-body: 'Manrope', sans-serif; }
+
+.slot-grid-bg {
+  background-image:
+    linear-gradient(rgba(127,29,29,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127,29,29,0.07) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+.dark .slot-grid-bg {
+  background-image:
+    linear-gradient(rgba(244,162,97,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,162,97,0.09) 1px, transparent 1px);
+}
+
+/* Deep-burgundy grid used specifically behind the cover-page hero */
+.forest-grid-bg {
+  background-image:
+    linear-gradient(rgba(244,162,97,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,162,97,0.10) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.glass {
+  background: rgba(255,247,237,0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.dark .glass {
+  background: rgba(46,10,13,0.6);
+}
+.glass-dark {
+  background: rgba(46,10,13,0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(244,162,97,0.16);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #7F1D1D, #C0492B 55%, #F4A261);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glow-smart {
+  box-shadow: 0 0 0 1px rgba(244,162,97,0.4), 0 0 18px rgba(244,162,97,0.3);
+}
+
+/* ------------------------------------------------------------------------
+   Global classroom background (brand identity layer).
+   One fixed photographic layer, mounted ONCE in MainLayout, sits behind
+   every route's content and stays fixed while the page scrolls.
+   Colors are theme-aware via CSS custom properties re-declared under .dark,
+   so this single component automatically re-skins with light/dark/system mode
+   — no page-level state, no per-page background of its own.
+   ------------------------------------------------------------------------ */
+:root {
+  /* warm cream / peach daylight tint over the photo */
+  --cb-tint: linear-gradient(180deg, rgba(255, 247, 237, 0.55) 0%, rgba(255, 250, 244, 0.74) 55%, rgba(255, 255, 255, 0.88) 100%);
+  --cb-scrim: rgba(255, 247, 237, 0.42);
+  --cb-line: rgba(59, 13, 17, 0.06);
+  --cb-img-filter: saturate(0.92) brightness(1.02) sepia(0.06);
+}
+.dark {
+  /* deep burgundy / charcoal tint, peach highlights kept in the photo */
+  --cb-tint: linear-gradient(180deg, rgba(23, 5, 6, 0.74) 0%, rgba(23, 5, 6, 0.86) 55%, rgba(17, 4, 5, 0.95) 100%);
+  --cb-scrim: rgba(17, 4, 5, 0.38);
+  --cb-line: rgba(244, 162, 97, 0.06);
+  --cb-img-filter: saturate(0.85) brightness(0.5) sepia(0.12) hue-rotate(-15deg);
+}
+
+.classroom-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+.classroom-bg__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  display: block;
+  filter: var(--cb-img-filter);
+  transition: filter 0.4s ease;
+}
+.classroom-bg__tint {
+  position: absolute;
+  inset: 0;
+  background: var(--cb-tint);
+  transition: background 0.4s ease;
+}
+.classroom-bg__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--cb-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cb-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.classroom-bg__scrim {
+  /* keeps the center-left, where most page content sits, calmest */
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(110% 80% at 30% 20%, transparent 0%, var(--cb-scrim) 85%);
+}
+
+/* Content surfaces already use .glass / bg-white / bg-ink-900 etc., which combined with
+   this tint keeps the background a quiet, consistent accent rather than a competing image. */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
